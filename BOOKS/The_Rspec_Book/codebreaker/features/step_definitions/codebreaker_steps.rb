@@ -4,7 +4,7 @@ class Output
   end
 
   def puts(message)
-    @messages << message
+    messages << message
   end
 end
 
@@ -20,6 +20,6 @@ When(/^I start a new game$/) do
   game.start
 end
 
-Then(/^I should be see "(.*?)"$/) do |message|
+Then(/^I should see "(.*?)"$/) do |message|
   expect(output.messages).to include(message)
 end
