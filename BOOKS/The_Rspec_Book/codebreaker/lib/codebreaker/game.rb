@@ -19,7 +19,7 @@ module Codebreaker
           mark << "-"
         end
       end
-      @output.puts mark
+      @output.puts mark.split(//).sort.join
     end
 
     def number_match? guess, index
