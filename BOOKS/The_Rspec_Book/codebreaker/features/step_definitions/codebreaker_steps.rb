@@ -25,14 +25,14 @@ Then(/^I should see "(.*?)"$/) do |message|
 end
 
 Given(/^the secret code is "(.*?)"$/) do |secret|
-  game = Codebreaker::Game.new(output)
-  game.start('1234')
+  @game = Codebreaker::Game.new(output)
+  @game.start('1234')
 end
 
-When(/^I guess "(.*?)"$/) do |arg1|
-    pending # express the regexp above with the code you wish you had
+When(/^I guess "(.*?)"$/) do |guess|
+  @game.guess(guess)
 end
 
-Then(/^the mark should be "(.*?)"$/) do |arg1|
-    pending # express the regexp above with the code you wish you had
+Then(/^the mark should be "(.*?)"$/) do |mark|
+  expect(output.messages).to include mark
 end
