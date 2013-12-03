@@ -9,14 +9,15 @@ module Codebreaker
       @output.puts("Welcome to Codebreaker!")
       @output.puts("Enter a guess:")
     end
-    
+
     def guess guess
-      if exact_match? guess, 0 
-        mark = "+"
-      elsif number_match? guess,0
-        mark = "-"
-      else
-        mark = ""
+      mark = ''
+      (0..3).each do |index|
+        if exact_match? guess, index 
+          mark << "+"
+        elsif number_match? guess, index
+          mark << "-"
+        end
       end
       @output.puts mark
     end
