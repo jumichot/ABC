@@ -10,6 +10,10 @@ class Marker
     end
   end
 
+  def total_match_count
+    0
+  end
+
   def exact_match_count
     (0..3).inject(0) do |count,index|
       count + (exact_match?(index)? 1 : 0)
