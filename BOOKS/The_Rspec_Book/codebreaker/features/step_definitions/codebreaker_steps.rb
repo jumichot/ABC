@@ -26,7 +26,7 @@ end
 
 Given(/^the secret code is "(.*?)"$/) do |secret|
   @game = Codebreaker::Game.new(output)
-  @game.start('1234')
+  @game.start(secret)
 end
 
 When(/^I guess "(.*?)"$/) do |guess|

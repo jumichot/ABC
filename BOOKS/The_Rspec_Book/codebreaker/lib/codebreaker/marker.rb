@@ -5,13 +5,19 @@ class Marker
   end
 
   def number_match_count
-    (0..3).inject(0) do |count,index|
-      count + (number_match?(index)? 1 : 0)
-    end
+    total_match_count - exact_match_count
   end
 
   def total_match_count
-    0
+    secret = @secret.split('')
+    count = 0
+    @guess.split('').map do |index|
+      if secret.include?(index)
+        secret.delete_at(secret.index(index))
+        count += 1
+      end
+    end
+    count
   end
 
   def exact_match_count
