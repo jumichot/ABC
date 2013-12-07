@@ -10,14 +10,13 @@ class Marker
 
   def total_match_count
     secret = @secret.split('')
-    count = 0
-    @guess.split('').map do |index|
-      if secret.include?(index)
-        secret.delete_at(secret.index(index))
-        count += 1
-      end
+    @guess.split('').inject(0) do |count,n|
+      count + (delete_one_match(secret,n)? 1 : 0)
     end
-    count
+  end
+
+  def delete_one_match secret, guess
+    secret.delete_at(secret.index(guess)) if secret.include?(guess)
   end
 
   def exact_match_count
