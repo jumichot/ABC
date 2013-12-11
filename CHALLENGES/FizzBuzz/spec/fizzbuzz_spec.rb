@@ -1,16 +1,18 @@
 module FizzBuzz
   class Finder
-    @@special_num = {3 => "Fizz", 5 => "Buzz"}
+    @@special_num = {3 => "Fizz", 5 => "Buzz", 15 => "FizzBuzz"}
 
     def to_a limit
       (1..limit).map {|num| find(num) } 
     end
 
     def find num
-      if modulo_equal_rezo? num,3
-        @@special_num[3]
+      if modulo_equal_rezo? num,15
+        @@special_num[15]
       elsif modulo_equal_rezo? num,5
         @@special_num[5]
+      elsif modulo_equal_rezo? num,3
+        @@special_num[3]
       else
         num
       end
@@ -56,8 +58,8 @@ module FizzBuzz
       it "reports correctly the first 5 lines" do
         expect(subject.to_a(5)).to eq [1,2,"Fizz",4,"Buzz"]
       end
-      it "reports correctly the first 6 lines" do
-        expect(subject.to_a(14)).to eq [1,2,"Fizz",4,"Buzz","Fizz",7,8,"Fizz","Buzz",11,"Fizz",13,14]
+      it "reports correctly the first 15 lines" do
+        expect(subject.to_a(15)).to eq [1,2,"Fizz",4,"Buzz","Fizz",7,8,"Fizz","Buzz",11,"Fizz",13,14,"FizzBuzz"]
       end
     end
   end
