@@ -1,11 +1,7 @@
 module FizzBuzz
   class Finder
     def to_a limit
-      ary = []
-      (1..limit).each do |num|
-        ary << find(num)
-      end
-      ary
+      (1..limit).map {|num| find(num) } 
     end
 
     def find num
