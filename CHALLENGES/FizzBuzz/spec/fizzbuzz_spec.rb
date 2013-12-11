@@ -18,10 +18,6 @@ module FizzBuzz
       end
     end
 
-    def special_char? num
-      @@special_num.keys.include? num
-    end
-
     def modulo_equal_rezo? num, modulo
       (num)%modulo == 0
     end
@@ -45,19 +41,7 @@ module FizzBuzz
       end
     end
 
-    describe "#special_char?" do
-      it "find 3 as special char" do
-        expect(subject.special_char? 3).to be_true
-      end
-      it "find 1 as not special char" do
-        expect(subject.special_char? 1).to be_false
-      end
-    end
-
     describe "#to_a" do
-      it "reports correctly the first 5 lines" do
-        expect(subject.to_a(5)).to eq [1,2,"Fizz",4,"Buzz"]
-      end
       it "reports correctly the first 15 lines" do
         expect(subject.to_a(15)).to eq [1,2,"Fizz",4,"Buzz","Fizz",7,8,"Fizz","Buzz",11,"Fizz",13,14,"FizzBuzz"]
       end
