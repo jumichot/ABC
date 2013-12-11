@@ -7,19 +7,10 @@ module FizzBuzz
     end
 
     def find num
-      if modulo_equal_rezo? num,15
-        @@special_num[15]
-      elsif modulo_equal_rezo? num,5
-        @@special_num[5]
-      elsif modulo_equal_rezo? num,3
-        @@special_num[3]
-      else
-        num
+      @@special_num.keys.reverse.each do |n|
+        return @@special_num[n] if (num)%n == 0
       end
-    end
-
-    def modulo_equal_rezo? num, modulo
-      (num)%modulo == 0
+      num
     end
   end
 end
