@@ -1,17 +1,27 @@
 module FizzBuzz
   class Finder
+    @@special_num = {3 => "Fizz", 5 => "Buzz"}
+
     def to_a limit
       (1..limit).map {|num| find(num) } 
     end
 
     def find num
-      if (num)%3 == 0
-        "Fizz"
-      elsif (num)%5 == 0
-        "Buzz"
+      if modulo_equal_rezo? num,3
+        @@special_num[3]
+      elsif modulo_equal_rezo? num,5
+        @@special_num[5]
       else
         num
       end
+    end
+
+    def special_char? num
+      @@special_num.keys.include? num
+    end
+
+    def modulo_equal_rezo? num, modulo
+      (num)%modulo == 0
     end
   end
 end
@@ -30,6 +40,15 @@ module FizzBuzz
       end
       it "find 4" do
         expect(subject.find(4)).to eq 4
+      end
+    end
+
+    describe "#special_char?" do
+      it "find 3 as special char" do
+        expect(subject.special_char? 3).to be_true
+      end
+      it "find 1 as not special char" do
+        expect(subject.special_char? 1).to be_false
       end
     end
 
