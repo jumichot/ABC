@@ -18,19 +18,22 @@ end
 
 module FizzBuzz
   describe Finder do
+    describe "#find" do
+      it "find 1" do
+        expect(subject.find(1)).to eq 1
+      end
+      it "find 2" do
+        expect(subject.find(2)).to eq 2
+      end
+      it "find Fizz for 3" do
+        expect(subject.find(3)).to eq "Fizz"
+      end
+      it "find 4" do
+        expect(subject.find(4)).to eq 4
+      end
+    end
+
     describe "#to_a" do
-      it "reports correctly the first line" do
-        expect(subject.to_a(1)).to eq [1]
-      end
-      it "reports correctly the first 2 lines" do
-        expect(subject.to_a(2)).to eq [1,2]
-      end
-      it "reports correctly the first 3 lines" do
-        expect(subject.to_a(3)).to eq [1,2,"Fizz"]
-      end
-      it "reports correctly the first 4 lines" do
-        expect(subject.to_a(4)).to eq [1,2,"Fizz",4]
-      end
       it "reports correctly the first 5 lines" do
         expect(subject.to_a(5)).to eq [1,2,"Fizz",4,"Buzz"]
       end
