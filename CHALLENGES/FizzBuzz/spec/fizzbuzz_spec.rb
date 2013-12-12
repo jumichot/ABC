@@ -1,14 +1,14 @@
 module FizzBuzz
   class Finder
-    @@special_num = {3 => "Fizz", 5 => "Buzz", 15 => "FizzBuzz"}
 
     def to_a limit
       (1..limit).map {|num| find(num) } 
     end
 
     def find num
-      @@special_num.keys.reverse.each do |n|
-        return @@special_num[n] if (num)%n == 0
+      special_num = {15 => "FizzBuzz", 5 => "Buzz", 3 => "Fizz" }
+      special_num.keys.each do |n|
+        return special_num[n] if (num)%n == 0
       end
       num
     end
