@@ -1,6 +1,7 @@
 class RomanToNumeral
   def convert num
-    return "V"+convert(num-5) if num >= 5
+    return "IX"+convert(num-9) if num > 8
+    return "V"+convert(num-5) if num > 4
     return "IV" if num == 4
     "I"*num
   end
@@ -24,5 +25,8 @@ describe RomanToNumeral do
   end
   it "#convert 8" do
     expect(subject.convert(8)).to eq "VIII"
+  end
+  it "#convert 9" do
+    expect(subject.convert(9)).to eq "IX"
   end
 end
