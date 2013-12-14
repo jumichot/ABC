@@ -1,10 +1,10 @@
 class RomanToNumeral
   def convert num
-    return "X"+convert(num-10) if num >= 10
-    return "IX"+convert(num-9) if num >= 9
-    return "V"+convert(num-5) if num >= 5
-    return "IV"+convert(num-4) if num >= 4 
-    "I"*num
+    special_numbers = {10 => "X", 9 =>"IX", 5 => "V", 4 => "IV", 1 => "I"}
+    special_numbers.each do |key, value|
+      return value+convert(num-key) if num >= key
+    end
+    ""
   end
 end
 
@@ -35,5 +35,8 @@ describe RomanToNumeral do
   end
   it "#convert 10" do
     expect(subject.convert(10)).to eq "X"
+  end
+  it "#convert 10" do
+    expect(subject.convert(31)).to eq "XXXI"
   end
 end
