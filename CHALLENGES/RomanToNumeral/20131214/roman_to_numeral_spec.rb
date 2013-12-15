@@ -36,7 +36,7 @@ describe RomanToNumeral do
   it "#convert 10" do
     expect(subject.convert(10)).to eq "X"
   end
-  it "#convert 10" do
+  it "#convert 31" do
     expect(subject.convert(31)).to eq "XXXI"
   end
 end
