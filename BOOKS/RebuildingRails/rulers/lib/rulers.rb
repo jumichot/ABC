@@ -1,4 +1,5 @@
 require "rulers/version"
+require "rulers/routing"
 require "rulers/array"
 
 module Rulers
@@ -12,7 +13,7 @@ module Rulers
   end
 
   class Controller
-    def initialiaze(env)
+    def initialize(env)
       @env = env
     end
     def env
