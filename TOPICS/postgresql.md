@@ -1,3 +1,5 @@
+/* Video from Tutsplus postgresql essentials training */
+
 Install Postgresql with homebrew :
 ```
   brew install postgresql
@@ -61,7 +63,7 @@ Now you want type command, you can get help for that with:
 ```
 \h sql command
 ```
-Create a table :
+Create a table (named relation in pg) :
 ```
 create table authors (name varchar(100));
 ```
@@ -384,8 +386,328 @@ PG validate you pass a value in enum
 ju=# update books set state='initialsadf';
 ERROR:  invalid input value for enum publish_state: "initialsadf"
 LINE 1: update books set state='initialsadf';
-                               ^
 ```
+
+##JSON
+You can have column as json
+PG validate it's a valide json format
+```
+ju=# insert into temp(col_json) values ('{"name":"julien", "surname": "juju"}');
+```
+### JSON FUNCTIONS
+
+doc: http://www.postgresql.org/docs/9.3/static/functions-json.html
+
+you can output results in a json way with row_to_josn
+```
+ju=# select row_to_json(row(title,tags)) from books;
+                                  row_to_json
+--------------------------------------------------------------------------------
+ {"f1":"Postgres Essentials","f2":["sql","video","tuts","database","postgres"]}
+ {"f1":null,"f2":["a","z","c"]}
+ {"f1":null,"f2":null}
+```
+
+You can output arrays to json too:
+```
+ju=# select array_to_json(tags) from books;
+                array_to_json
+----------------------------------------------
+ ["sql","video","tuts","database","postgres"]
+ ["a","z","c"]
+```
+
+##XML
+```
+ju=# alter table temp add column col_xml xml;
+```
+
+Engine validation as expected
+```
+LINE 1: insert into temp(col_xml) values('<hello>world')
+                                         ^
+DETAIL:  line 1: Premature end of data in tag hello line 1
+<hello>world
+            ^
+```
+
+Xpath fonctions
+```
+ju=# select xpath('//world/text()', col_xml) from temp;
+  xpath
+----------
+ {coucou}
+ {coucou}
+ {coucou}
+ {coucou}
+```
+
+create xml element from a request
+```
+ju=# select xmlelement(name "Book", xmlattributes(authors.name as "Atuhor"))
+from books join authors
+on books.author_id = authors.author_id;
+       xmlelement
+-------------------------
+ <Book Atuhor="hector"/>
+ <Book Atuhor="hector"/>
+ <Book Atuhor="hector"/>
+```
+
+You can create nested xml element
+```
+ju=# \e
+                         xmlelement
+------------------------------------------------------------
+ <Book><Author>hector</Author><State>initial</State></Book>
+ <Book><Author>hector</Author><State>initial</State></Book>
+ <Book><Author>hector</Author><State>initial</State></Book>
+```
+##RANGE
+Create a range, you can see by default its [) lower range is inclusive
+and the upper is exclusive
+```
+ju=# select numrange(1,20) ;
+ numrange
+----------
+ [1,20)
+```
+
+Check intersection
+```
+ju=# select numrange('[1,20]') && numrange(20,30);
+ ?column?
+----------
+ t
+
+ju=# select numrange('[1,20)') && numrange(20,30);
+ ?column?
+----------
+ f
+```
+
+To see the intersection use * operator
+```
+ju=# select numrange('[1,20)') * numrange(10,30);
+----------
+ [10,20)
+```
+To see the union use * operator
+```
+ju=# select numrange('[1,20)') + numrange(10,30);
+----------
+ [10,20)
+```
+
+idem with -
+```
+ju=# select numrange('[1,20)') - numrange(10,30);
+ ?column?
+----------
+ [1,10)
+```
+
+You can cast a string to a range with:
+```
+ju=# select '[3,]'::numrange;
+ numrange
+----------
+ [3,)
+```
+
+You can make nice selection with ranges :
+```
+ju=# select * from books;
+ book_id | price_usd | isbn |        title        | author_id |                tags                | publish_date |        last_updated        | published |  state
+---------+-----------+------+---------------------+-----------+------------------------------------+--------------+----------------------------+-----------+---------
+       2 |     75.21 |      | Postgres Essentials |         1 | {sql,video,tuts,database,postgres} |              | 2015-04-20 15:20:00        |           | initial
+       3 |     44.82 |      |                     |         1 | {a,z,c}                            |              | 2015-04-20 15:20:00        |           | initial
+       1 |     43.35 |      |                     |         1 |                                    | 2015-03-06   | 2015-03-06 10:24:39.118288 |           | initial
+(3 rows)
+
+ju=# select title, price_usd from books where '[1,50]'::numrange @> price_usd;
+ title | price_usd
+-------+-----------
+       |     44.82
+       |     43.35
+(2 rows)
+```
+#TYPE CREATION
+You can create special types
+```
+ju=# create type  address as (
+  street text,
+  state char(2),
+  country varchar(50),
+  postal_code varchar(10)
+);
+```
+To insert it don't use this notation :
+```
+ju=# insert into temp(address) values('("some street","NY","USA","10022")');
+```
+But this one, you can add some spaces for readability
+```
+ju=# insert into temp(address) values(row('some street', 'ny', 'usa', '10022'));
+```
+
+To update some specific field in a custom type:
+```
+ju=# update temp set address.country='FR';
+```
+
+You can have some ambiguity address is the name of the type
+and the name of the column
+```
+ju=# select address.country from temp;
+ERROR:  missing FROM-clause entry for table "address"
+LINE 1: select address.country from temp;
+               ^
+```
+
+You must qualified the table name:
+```
+ju=# select (temp.address).country from temp;
+```
+
+You can drop types with
+```
+drop type address cascade
+```
+
+
+
+#OTHER
+Know the max connection value :
+```
+select name, setting from pg_settings where name = 'max_connections';
+```
+
+reset sequence of ids for primary key for example:
+```
+ju=# alter sequence authors_author_id_seq restart with 1;
+```
+The sequence is visible here :
+```
+ju=# \d
+                   List of relations
+ Schema |           Name            |   Type   | Owner
+--------+---------------------------+----------+-------
+ public | authors                   | table    | ju
+ public | authors_author_id_seq     | sequence | ju
+ public | books                     | table    | ju
+ public | books_book_id_seq         | sequence | ju
+ public | temp                      | table    | ju
+ public | tutorials                 | table    | ju
+ public | tutorials_tutorial_id_seq | sequence | ju
+(7 rows)
+```
+
+You can see a sequence :
+```
+ju=# \d books_book_id_seq
+      Sequence "public.books_book_id_seq"
+    Column     |  Type   |        Value
+---------------+---------+---------------------
+ sequence_name | name    | books_book_id_seq
+ last_value    | bigint  | 3
+ start_value   | bigint  | 1
+ increment_by  | bigint  | 1
+ max_value     | bigint  | 9223372036854775807
+ min_value     | bigint  | 1
+ cache_value   | bigint  | 1
+ log_cnt       | bigint  | 30
+ is_cycled     | boolean | f
+ is_called     | boolean | t
+Owned by: public.books.book_id
+```
+
+Import a csv file
+```
+ju=# copy authors(name,email) from '/Users/ju/Inbox/authors.csv' delimiter '|' csv header;
+```
+
+
+#SELECT COMMAND
+```
+select authors.name as "auteur", books.title as "titre du livre"  
+from authors join books on authors.author_id = books.author_id order by authors.name;
+
+select a.name,count(t.tutorial_id) as count
+from authors a join tutorials t
+on a.author_id = t.author_id
+group by a.name
+order by count
+limit 3;
+
+select * from (values (1,3,3),(2,3,44)) as numbers(a,b,c);
+
+select 5/2.0;
+```
+
+#SUBQUERY
+(missing last command)
+```
+-- books authors
+select a.author_id, a.name
+from authors a join books b on a.author_id = b.author_id;
+
+-- tutorials authors
+select distinct a.author_id, a.name
+from authors a join tutorials t on a.author_id = t.author_id
+order by a.author_id;
+```
+
+#TEMPORARY TABLE
+Have lifetime of a session
+```
+-- select authors who have tutorials and books via temporary table
+create	temporary table tutorials_authors as
+select distinct a.author_id, a.name as author_name
+from authors a join tutorials  t on a.author_id=t.author_id;
+
+select t.author_id, t.author_name from tutorials_authors t
+join books on books.author_id=t.author_id
+```
+if you launch the last query again it will fail saying
+table already exist.
+
+#CTE (COMMON TABLE EXPRESSION)
+Last for the duration of the query
+
+```
+with tutorial_authors as (
+select distinct a.author_id, a.name as author_name
+from authors a join tutorials t on a.author_id=t.author_id
+)
+
+select t.author_id, t.author_name from tutorial_authors t
+join books on books.author_id=t.author_id;
+```
+If you try to select something the cte it will print an error
+
+#TABLE FUNCTION
+```
+-- function signature
+-- you can pass parameter
+-- usefull to build complex queries
+CREATE or replace function tutorial_authors(INT) returns table(author_id INT, author_name TEXT)
+as $$
+select distinct a.author_id, a.name from authors a join tutorials t on a.author_id=t.author_id
+limit $1
+$$ language sql;
+
+select * from tutorial_authors(5);
+
+drop function tutorial_authors(INT);
+```
+
+#VIEWS
+create view tutorial_authors(author_id, author_name)
+as 
+select distinct a.author_id, a.name from authors a join tutorials  t on 
+a.author_id=t.author_id;
+
 #TROUBLESHOUTING
 
 If error with psql (psql: FATAL:  database "user" does not exist), it's you don't
