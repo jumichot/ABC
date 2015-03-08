@@ -703,10 +703,77 @@ drop function tutorial_authors(INT);
 ```
 
 #VIEWS
-create view tutorial_authors(author_id, author_name)
-as 
-select distinct a.author_id, a.name from authors a join tutorials  t on 
+```
+create or replace view tutorial_authors(author_id, author_name)
+as
+select distinct a.author_id, a.name from authors a join tutorials t on
 a.author_id=t.author_id;
+
+select * from tutorial_authors;
+drop view tutorial_authors;
+```
+
+#HSTORE
+Install hstore
+```
+create extension hstore;
+```
+
+Add column to a table
+```
+alter table books
+add column sales hstore;
+```
+
+```
+update books set sales='total_sales=> 12343, peak_sales=>4344, peak_sale_date=>"12/23/2013"' where book_id=13;
+
+ju=# select sales from books where book_id=13;
+ 
+                                    sales
+------------------------------------------------------------------------------
+ "peak_sales"=>"4344", "total_sales"=>"12343", "peak_sale_date"=>"12/23/2013"
+
+```
+
+Access specific value
+```
+select sales->'peak_sales' from books where book_id=13; 
+```
+You can cast specific fields, here in a date
+```
+select DATE(sales->'peak_sale_date') from books where book_id=13; 
+```
+concatenate htore
+```
+select 'a=> 12, b=>13'::hstore || 'c=>14'::hstore
+```
+get keys
+```
+select akeys('a=> 12, b=>13'::hstore || 'c=>14'::hstore)
+```
+get values
+```
+select avals('a=> 12, b=>13'::hstore || 'c=>14'::hstore)
+```
+
+- operator
+```
+select 'a=> 12, b=>13'::hstore - 'c=>14'
+select 'a=> 12, b=>13'::hstore - 'c=>14'::text
+select 'a=> 12, b=>13'::hstore - 'c=>14'::hstore
+```
+
+add random value for a key
+```
+update books set sales=sales || hstore('total_sales', round((random() * 100000))::TEXT);
+select sales from books;
+```
+Run some stats for keys
+```
+update books set sales=sales || hstore('peak_sales', round((random() * 100000))::TEXT);
+select sum((sales->'peak_sales')::INT) from books;
+```
 
 #TROUBLESHOUTING
 
