@@ -11,8 +11,14 @@ var helloWorld = function(req, res, next){
   res.end('Hello World');
 }
 
+var bye = function(req, res, next){
+  res.setHeader('Content-Type','text/plain');
+  res.end('goodbye world');
+}
+
 app.use(logger);
-app.use(helloWorld);
+app.use('/hello/',helloWorld);
+app.use('/bye/',bye);
 app.listen(3000);
 
 console.log('serveur is running on port 3000');
