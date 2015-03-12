@@ -1,0 +1,4 @@
+- installation des près-requis lors des premiers chapitres
+- introduction à node et sa nature evenementielle
+- introduction au mvc
+- introduction à connect ça devient intéressant à partir de la page 60
