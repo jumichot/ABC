@@ -13,7 +13,7 @@ module.exports = function() {
     app.use(compress());
   }
 
-  app.use(bodyParser.urlencoded({extende:true}));
+  app.use(bodyParser.urlencoded({extended:true}));
   app.use(bodyParser.json());
   app.use(methodOverride());
 
@@ -21,5 +21,8 @@ module.exports = function() {
   app.set('view engine', 'ejs');
 
   require('../app/routes/index.server.route.js')(app);
+
+  app.use(express.static('./public'));
+
   return app;
 }
