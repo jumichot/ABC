@@ -2,5 +2,7 @@
 - introduction à node et sa nature evenementielle
 - introduction au mvc
 - introduction à connect ça devient intéressant à partir de la page 60
-- introduction aux modules commonjs
-- p64 : introduction aux middleware, ça fonctionne un peu comme rack visiblement
+- introduction aux modules commonjs : deux types de module
+- p64: introduction aux middleware, ça fonctionne un peu comme rack visiblement
+- express organisation pas de conventions fortes visiblement...
+- p80: express routing et middlewares. On nous explique ce qu'il est possible de faire

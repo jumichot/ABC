@@ -1,24 +1,13 @@
-var connect = require('connect');
-var app = connect();
+var express = require('express');
+var app = express();
 
-var logger = function(req, res, next){
-  console.log(req.method, req.url);
-  next();
-}
+app.use('/', function(req,res){
+  console.log(req.query);
+  console.log(req.params);
+  res.send('Hello World');
+});
 
-var helloWorld = function(req, res, next){
-  res.setHeader('Content-Type','text/plain');
-  res.end('Hello World');
-}
-
-var bye = function(req, res, next){
-  res.setHeader('Content-Type','text/plain');
-  res.end('goodbye world');
-}
-
-app.use(logger);
-app.use('/hello/',helloWorld);
-app.use('/bye/',bye);
 app.listen(3000);
+console.log('Server running on 3000');
 
-console.log('serveur is running on port 3000');
+module.exports = app;
