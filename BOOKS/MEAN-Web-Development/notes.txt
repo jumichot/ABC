@@ -6,3 +6,6 @@
 - p64: introduction aux middleware, ça fonctionne un peu comme rack visiblement
 - express organisation pas de conventions fortes visiblement...
 - p80: express routing et middlewares. On nous explique ce qu'il est possible de faire
+- p82: on refactore l'appli avec la bonne organisation de fichier et on split notre fichier en 3
+avec une gestion basée sur les modules
+- p86: ajout de quelques modules, on commence à parler des variables d'environnement
