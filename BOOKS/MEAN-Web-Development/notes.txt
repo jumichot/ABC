@@ -12,3 +12,6 @@ avec une gestion basée sur les modules
 - p92: ajoute middleware pour gérer les fichiers statiques, il est 'use' après la gestion des routes
 car ça demande de l'I/O, si c'était mis avant les perfs seraient mauvaise
 - p94 ajoute du middleware de session
+- p111 explique tout mongodb and crud operations
+- p114 introduction à mongoose, un ODM
+- p118 création du premier model mongoose
