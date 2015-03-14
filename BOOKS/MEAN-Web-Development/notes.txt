@@ -15,3 +15,4 @@ car ça demande de l'I/O, si c'était mis avant les perfs seraient mauvaise
 - p111 explique tout mongodb and crud operations
 - p114 introduction à mongoose, un ODM
 - p118 création du premier model mongoose
+- p124 list et show des users, création de l'api
