@@ -15,4 +15,6 @@ car ça demande de l'I/O, si c'était mis avant les perfs seraient mauvaise
 - p111 explique tout mongodb and crud operations
 - p114 introduction à mongoose, un ODM
 - p118 création du premier model mongoose
+- app.param('userId', users.userById) est un middleware prioritaire par rapport aux autres
+qui va ajouter la propriété user à l'objet req, on pourra donc utiliser req.user ailleur
 - p124 list et show des users, création de l'api
