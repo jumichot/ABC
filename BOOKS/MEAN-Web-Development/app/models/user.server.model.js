@@ -63,6 +63,14 @@ UserSchema.methods.authenticate = function(password) {
   return this.password === password;
 };
 
+UserSchema.post('save', function(next) {
+     if(this.isNew) {
+       console.log('A new user was created.');
+     } else {
+       console.log('A user updated is details.');
+     }
+});
+
 UserSchema.set('toJSON', { getters: true });
 
 mongoose.model('User', UserSchema);

@@ -25,3 +25,5 @@ les getters lors de la conversion en json UserSchema.set('toJSON', { getters: tr
 setteur pour ces attributs.
 - p132 creation d'index, attention ça se fait au démarrage de l'app, faire gaffe en prod
 Attention avec les index d'unicité dans monogoose, si il y a déjà de la duplication ça ne fait rien !
+- p135: models validation
+- p137: models livecycle : mongoose middleware
