@@ -21,5 +21,7 @@ qui va ajouter la propriété user à l'objet req, on pourra donc utiliser req.u
 - p128 moogoose modifier set permet de faire des modifs lors de l'enregistrement,
 get lors de la lecture, en utilisant l'option set sur le schema, on force mongoose à utiliser
 les getters lors de la conversion en json UserSchema.set('toJSON', { getters: true});
-- p131 attribut virtuels dans mongoose. Ils sont bien renvoyés dans le json. Possibilité de créer des 
+- p131 attribut virtuels dans mongoose. Ils sont bien renvoyés dans le json. Possibilité de créer des
 setteur pour ces attributs.
+- p132 creation d'index, attention ça se fait au démarrage de l'app, faire gaffe en prod
+Attention avec les index d'unicité dans monogoose, si il y a déjà de la duplication ça ne fait rien !
