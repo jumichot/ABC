@@ -1,22 +1,36 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   firstName: String,
   lastName: String,
   email: {
     type: String,
-    index: true
+    index: true,
+    match: /.+\@.+\..+/
   },
   username: {
     type: String,
     trim: true,
-    unique: true
+    unique: true,
+    required: true
   },
-  password: String,
+  password:{
+    type: String,
+    validate: [
+      function(password){
+        return password.length >= 6;
+      },
+      'Password should be longer'
+    ]
+  },
   created: {
     type: Date,
     default: Date.now()
+  },
+  role: {
+    type: String,
+    enum: ['admin', 'owner', 'user']
   },
   website: {
     type: String,
