@@ -18,3 +18,6 @@ car ça demande de l'I/O, si c'était mis avant les perfs seraient mauvaise
 - app.param('userId', users.userById) est un middleware prioritaire par rapport aux autres
 qui va ajouter la propriété user à l'objet req, on pourra donc utiliser req.user ailleur
 - p124 list et show des users, création de l'api
+- p128 moogoose modifier set permet de faire des modifs lors de l'enregistrement,
+get lors de la lecture, en utilisant l'option set sur le schema, on force mongoose à utiliser
+les getters lors de la conversion en json UserSchema.set('toJSON', { getters: true});
