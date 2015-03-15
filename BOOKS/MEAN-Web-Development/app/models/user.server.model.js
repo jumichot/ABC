@@ -20,13 +20,21 @@ var UserSchema = new Schema({
       if(!url){
         return url;
       } else {
-        if(url.indexOf('http://') !== 0 && url.indexOf('https://' !== 0){
+        if(url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0){
           url = 'http://'+url;
         }
         return url;
       }
     }
   }
+});
+
+UserSchema.virtual('fullname').get(function(){
+  return this.firstName + ' ' + this.lastName;
+}).set(function(fullName){
+  var splitName = fullName.split(' ');
+  this.firstName = splitName[0] || '';
+  this.lastName = splitName[1] || '';
 });
 
 UserSchema.set('toJSON', { getters: true });
