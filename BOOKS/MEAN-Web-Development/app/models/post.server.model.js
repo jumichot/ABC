@@ -16,3 +16,7 @@ var PostSchema = new Schema({
   }
 });
 mongoose.model('Post', PostSchema);
+
+
+// Post.find().populate('author').exec(function(err, posts) { ...
+// });

@@ -27,3 +27,7 @@ setteur pour ces attributs.
 Attention avec les index d'unicité dans monogoose, si il y a déjà de la duplication ça ne fait rien !
 - p135: models validation
 - p137: models livecycle : mongoose middleware
+- p139: DBRef, relations entre les models. populate() ressemble à include, mongoose save un object id pour faire
+la jointure. Je suis sceptique sur les perfs, il faudrait regarder les requêtes faites à mongo dans ce cas. Cette
+feature permet d'émuler du relationnel dans du nosql, je suis pas convaincu que ce soit une super idée...
+- p142 auth avec passport
