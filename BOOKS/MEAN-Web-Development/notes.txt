@@ -31,3 +31,5 @@ Attention avec les index d'unicité dans monogoose, si il y a déjà de la dupli
 la jointure. Je suis sceptique sur les perfs, il faudrait regarder les requêtes faites à mongo dans ce cas. Cette
 feature permet d'émuler du relationnel dans du nosql, je suis pas convaincu que ce soit une super idée...
 - p142 auth avec passport
+- longue partie sur les strategies passport, stratégie local et oauth.
+- p190 angular
