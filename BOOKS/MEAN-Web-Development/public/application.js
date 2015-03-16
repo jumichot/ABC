@@ -4,7 +4,7 @@ var mainApplicationModule = angular.module(mainApplicationModuleName, ['ngRoute'
 //use Hashbangs configuration http://localhost:3000/#!/example for seo purpose
 mainApplicationModule.config(['$locationProvider',
   function($locationProvider){
-    $locationPRovider.hashPrefix('!');
+    $locationProvider.hashPrefix('!');
   }
 ]);
 
