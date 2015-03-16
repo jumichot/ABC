@@ -35,3 +35,4 @@ feature permet d'émuler du relationnel dans du nosql, je suis pas convaincu que
 - p190 angular
 - dans config/express il y a le setup du dossier public, c'est pourquoi dans les vues je peux juste require
 /application.js et qu'il va le chercher dans le dossier public
+- p202 ngRoute, configuration du router avec la config Hashbangs pour le seo, signigier que c'est une spa
