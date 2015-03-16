@@ -33,3 +33,5 @@ feature permet d'émuler du relationnel dans du nosql, je suis pas convaincu que
 - p142 auth avec passport
 - longue partie sur les strategies passport, stratégie local et oauth.
 - p190 angular
+- dans config/express il y a le setup du dossier public, c'est pourquoi dans les vues je peux juste require
+/application.js et qu'il va le chercher dans le dossier public
